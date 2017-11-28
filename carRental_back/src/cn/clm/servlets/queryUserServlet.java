@@ -1,0 +1,30 @@
+package cn.clm.servlets;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import cn.clm.services.userService;
+
+@WebServlet("/queryUserServlet")
+public class queryUserServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*分页*/
+		String page=request.getParameter("page");
+		if(page == null){
+			page="1";
+		}
+		userService u =new userService();
+		request.setAttribute("pageDate",u.pageAll(Integer.parseInt(page)));
+		request.getRequestDispatcher("/back/userList.jsp").forward(request, response);
+	
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
